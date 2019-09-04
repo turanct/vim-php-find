@@ -1,27 +1,24 @@
 " PHP Find Usage
-function! PhpUsage(word)
+function! find#PhpUsage(word)
     exe 'Ack "::' . a:word . '\(|>' . a:word . '\("'
 endfunction
 
 " PHP Find Implementations
-function! PhpImplementations(word)
+function! find#PhpImplementations(word)
     exe 'Ack "implements.*' . a:word . ' *($|{)"'
 endfunction
 
 " PHP Find Subclasses
-function! PhpSubclasses(word)
+function! find#PhpSubclasses(word)
     exe 'Ack "extends.*' . a:word . ' *($|{)"'
 endfunction
 
-" PHP Extract Interface
-command! -range PhpExtractInterfaceFromRange <line1>,<line2>call PhpInterfaceFromRange()
-
-function! PhpInterfaceFromRange() range
+function! find#PhpInterfaceFromRange() range
   let interface = input('Enter extracted interface name: ')
-  call PhpExtractInterface(a:firstline, a:lastline, interface)
+  call find#PhpExtractInterface(a:firstline, a:lastline, interface)
 endfunction
 
-function! PhpExtractInterface(start, end, interface)
+function! find#PhpExtractInterface(start, end, interface)
   normal! qkq
   execute ''.a:start.','.a:end.'g/public.*function.*(\_.\{-})/normal ^f(V%"Ky'
   let @k = substitute(@k, ' \?{', '', 'g')
